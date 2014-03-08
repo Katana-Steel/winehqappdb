@@ -54,8 +54,14 @@ import android.widget.*;
             LayoutInflater inflater = (LayoutInflater) this.main.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.list_item, parent, false);
             TextView textView = (TextView) rowView.findViewById(R.id.list_label);
-            textView.setText(this.getItem(position).str);
-            textView.setOnClickListener(this.getAppData);
+            try {
+                textView.setText(this.getItem(position).str);
+                textView.setOnClickListener(this.getAppData);
+            }
+            catch (Exception e)
+            {
+                textView.setText("No more Elements");
+            }
             return rowView;
         }
         

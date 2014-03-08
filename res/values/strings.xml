@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WineHQ Appdb Search</string>
+    <string name="filters">Search Filters</string>
+    <string name="about">About</string>
+    <string name="search_hint">Search WineHQ Appdb database</string>
+    <string name="sbtn">Search</string>
+    <string name="rating">Rating</string>
+    <string name="asc">Ascending</string>
+    <string name="rtnmax">Set Page</string>
+    <string-array name="rate_values">
+        <item>All</item>
+        <item>Platinum</item>
+        <item>Gold</item>
+        <item>Silver</item>
+        <item>Bronze</item>
+        <item>Garbage</item>
+    </string-array>
+    <string name="license">License</string>
+    <string-array name="lic_values">
+        <item>All</item>
+        <item>Retail</item>
+        <item>Open Source</item>
+        <item>Free to use</item>
+        <item>Free to use and share</item>
+        <item>Demo</item>
+        <item>Shareware</item>
+    </string-array>
+    <string-array name="plc_values">
+        <item>contains</item>
+        <item>starts with</item>
+        <item>ends with</item>
+    </string-array>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+    android:textSize="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:text="@string/filters" />
+    <CheckBox android:id="@+id/ascbx"
+    android:textSize="18dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:text="@string/asc" 
+    />
+    <LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+        <Spinner android:id="@+id/rate_sel"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView 
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/rating" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+        <Spinner android:id="@+id/lic_sel"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView 
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/license" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+        <TextView 
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/sbtn" />
+        <Spinner android:id="@+id/plc_sel"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+        <TextView 
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/rtnmax" />
+        <EditText android:id="@+id/max_items"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:inputType="number" />
+    </LinearLayout>
+</LinearLayout>

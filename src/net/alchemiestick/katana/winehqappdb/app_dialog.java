@@ -47,7 +47,7 @@ public class app_dialog extends Dialog
         this.adapter = new VersionAdapter(cx);
         this.clear();
     }
-    
+
     public HttpUriRequest getCall(String addr)
     {
         String url = addr.replaceAll("&amp;","&");
@@ -84,6 +84,8 @@ public class app_dialog extends Dialog
         if(win.addr.length() > 0) {
             WineApp que = new WineApp(this.adapter, this.tv);
             que.execute(this.getCall(win.addr));
+        } else {
+            this.dismiss();
         }
     }
 }

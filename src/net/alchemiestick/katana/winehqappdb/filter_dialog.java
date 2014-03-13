@@ -7,8 +7,10 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.view.*;
+import android.view.inputmethod.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.TextView.*;
 import android.*;
 import org.apache.http.*;
 import org.apache.http.params.*;
@@ -25,7 +27,7 @@ public class filter_dialog extends Dialog
     private AdapterView.OnItemSelectedListener rateListener; // rate spinner
     private AdapterView.OnItemSelectedListener licenseListener; // license spinner
     private AdapterView.OnItemSelectedListener placementListener; // placement spinner
-    private View.OnFocusChangeListener maxLines;
+    private OnEditorActionListener maxLines;
     
     public filter_dialog(Context cx, List<NameValuePair> data) {
         super(cx);
@@ -38,13 +40,16 @@ public class filter_dialog extends Dialog
             }
         };
         
-        maxLines = new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean gained) {
-                if(!gained) {
-                    TextView tv = (TextView)v;
+        maxLines = new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView tv, int action, KeyEvent key) {
+                boolean handled = false;
+                if( action == EditorInfo.IME_ACTION_DONE) {
                     setMaxLines(tv.getText().toString());
                     tv.setText(getNamedData("iPage"));
+                    handled = true;
                 }
+                return handled;
             }
         };
         rateListener = new AdapterView.OnItemSelectedListener() {
@@ -101,7 +106,7 @@ public class filter_dialog extends Dialog
         
         EditText tv = (EditText)findViewById(R.id.max_items);
         tv.setText(getNamedData("iPage"));
-        tv.setOnFocusChangeListener(maxLines);
+        tv.setOnEditorActionListener(maxLines);
         
         setupSpinner(R.id.rate_sel, R.array.rate_values, getNamedData("sappVersion-ratingData"),rateListener);
         setupSpinner(R.id.lic_sel, R.array.lic_values, getNamedData("sappVersion-licenseData"),licenseListener);

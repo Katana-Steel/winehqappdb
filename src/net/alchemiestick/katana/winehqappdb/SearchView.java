@@ -29,8 +29,10 @@ import android.content.DialogInterface.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
+import android.view.inputmethod.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.TextView.*;
 import android.os.AsyncTask;
 import android.net.*;
 import android.net.http.*;
@@ -63,17 +65,31 @@ public class SearchView extends Activity
     public ValidCheck lCheckerCallback;
     private LicenseChecker lChecker;
     private Handler uiHnd;
-     
+
+    public void do_search(WineSearch ws) {
+        setAppNameData(input.getText().toString());
+        ws.execute(ws.getCall("http://appdb.winehq.org/objectManager.php"));
+    }
+    
     private View.OnClickListener searchClick = new View.OnClickListener() {
         public void onClick(View v) {
-//            try {
-                Context cx = v.getContext();
-                WineSearch appdb = new WineSearch((SearchView)cx);
-                setAppNameData(input.getText().toString());
-                appdb.execute(appdb.getCall("http://appdb.winehq.org/objectManager.php"));
-/*            }
-            catch(Exception e)
-            { } */
+            SearchView cx = (SearchView)v.getContext();
+            WineSearch appdb = new WineSearch(cx);
+            cx.do_search(appdb);
+        }
+    };
+    
+    private OnEditorActionListener inputEnter = new OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            boolean handled = false;
+            SearchView cx = (SearchView)v.getContext();
+            if ( actionId == EditorInfo.IME_ACTION_SEARCH ) {
+                WineSearch appdb = new WineSearch(cx);
+                cx.do_search(appdb);
+                handled = true;
+            }
+            return handled;
         }
     };
     
@@ -89,6 +105,7 @@ public class SearchView extends Activity
         setDefaults();
 
         input = (EditText)findViewById(R.id.searchInput);
+        input.setOnEditorActionListener(inputEnter);
 
         Button s = (Button)findViewById(R.id.searchSubmit);
         s.setOnClickListener(this.searchClick);

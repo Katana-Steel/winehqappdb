@@ -16,6 +16,7 @@
           android:background="@android:drawable/editbox_background"
           android:hint="@string/search_hint"
           android:singleLine="true"
+          android:imeOptions="actionSearch"
           />
         <Button android:id="@+id/searchSubmit"
           android:layout_width="60dp"

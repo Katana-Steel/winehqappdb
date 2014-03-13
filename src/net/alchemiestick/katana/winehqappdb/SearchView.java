@@ -85,6 +85,8 @@ public class SearchView extends Activity
             boolean handled = false;
             SearchView cx = (SearchView)v.getContext();
             if ( actionId == EditorInfo.IME_ACTION_SEARCH ) {
+                InputMethodManager imm = (InputMethodManager)cx.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 WineSearch appdb = new WineSearch(cx);
                 cx.do_search(appdb);
                 handled = true;

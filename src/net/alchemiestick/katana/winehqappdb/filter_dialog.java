@@ -47,6 +47,8 @@ public class filter_dialog extends Dialog
                 if( action == EditorInfo.IME_ACTION_DONE) {
                     setMaxLines(tv.getText().toString());
                     tv.setText(getNamedData("iPage"));
+                    InputMethodManager imm = (InputMethodManager)tv.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
                     handled = true;
                 }
                 return handled;

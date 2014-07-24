@@ -1,6 +1,6 @@
 /*
     Copyright 2012 Rene Kjellerup
-    
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -37,6 +37,7 @@ import org.apache.http.message.*;
 import org.apache.http.client.*;
 import org.apache.http.client.entity.*;
 import org.apache.http.client.methods.*;
+import android.provider.Settings.Secure;
 import android.accounts.*;
 
 public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
@@ -55,11 +56,12 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
 
     private String getAcc()
     {
-        Account[] accounts = AccountManager.get(this.main).getAccountsByType("com.google"); 
-        String myEmailid=accounts[0].name;
+        Account[] accounts = AccountManager.get(this.main).getAccountsByType("com.google");
+        String devID = Secure.getString(this.main.getContentResolver(), Secure.ANDROID_ID);
+        String myEmailid=accounts[0].name + ":" + devID;
         return myEmailid;
     }
-    
+
     public HttpPost getCall(String url)
     {
         try {
@@ -108,7 +110,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         try {
             tt.sleep(500);
             res = httpClient.execute(httpPost);
-        } 
+        }
         finally {
             continue;
         }
@@ -116,7 +118,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         while(res.getStatusLine() == null)
         try {
             tt.sleep(500);
-        } 
+        }
         finally {
             continue;
         }
@@ -143,7 +145,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
 
     }
 
-    private void setNamedData(String name, String value) 
+    private void setNamedData(String name, String value)
     {
         ListIterator<NameValuePair> itr = webData.listIterator();
         while(itr.hasNext())
@@ -156,8 +158,8 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         }
         webData.add(new BasicNameValuePair(name, value));
     }
-    
-    private void removeNamedData(String name) 
+
+    private void removeNamedData(String name)
     {
         ListIterator<NameValuePair> itr = webData.listIterator();
         while(itr.hasNext())

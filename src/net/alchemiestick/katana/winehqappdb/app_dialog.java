@@ -51,6 +51,8 @@ public class app_dialog extends Dialog
     public HttpUriRequest getCall(String addr)
     {
         String url = addr.replaceAll("&amp;","&");
+        if (url.startsWith ("//"))
+            url = "http:" + url;
         try {
 
             return new HttpGet(url);
@@ -82,8 +84,15 @@ public class app_dialog extends Dialog
         // this.tv.setText(win.addr);
         this.adapter.add("Getting app data;;;");
         if(win.addr.length() > 0) {
+            HttpUriRequest uri = this.getCall(win.addr);
+            if (uri == null) {
+                this.adapter.add("Failed to load url;;"+win.addr+";");
+                Thread.currentThread ().sleep (1500);
+                this.dismiss ();
+                return;
+            }
             WineApp que = new WineApp(this.adapter, this.tv);
-            que.execute(this.getCall(win.addr));
+            que.execute(uri);
         } else {
             this.dismiss();
         }

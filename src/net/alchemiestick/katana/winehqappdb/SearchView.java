@@ -70,6 +70,12 @@ public class SearchView extends Activity
         setAppNameData(input.getText().toString());
         ws.execute(ws.getCall("http://appdb.winehq.org/objectManager.php"));
     }
+
+    public static void do_sleep(int msec) {
+        try {
+            Thread.currentThread().sleep(1500);
+        } catch (Exception e) {}
+    }
     
     private View.OnClickListener searchClick = new View.OnClickListener() {
         public void onClick(View v) {

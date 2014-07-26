@@ -89,23 +89,20 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
     protected StringBuffer doInBackground(HttpUriRequest... url)
     {
         StringBuffer sb = new StringBuffer("");
-        Thread tt = Thread.currentThread(); // for thread sleep
+        if (url[0] == null)
+            return sb;
         HttpResponse res = null;
-        while(res == null)
-        try {
-            tt.sleep(500);
+        while(res == null) 
+         try {
+            SearchView.do_sleep(500);
             res = httpClient.execute(url[0]);
         } 
         finally {
             continue;
         }
 
-        while(res.getStatusLine() == null)
-        try {
-            tt.sleep(500);
-        } 
-        finally {
-            continue;
+        while(res.getStatusLine() == null) {
+            SearchView.do_sleep(500);
         }
 
         try {

@@ -87,10 +87,7 @@ public class app_dialog extends Dialog
             HttpUriRequest uri = this.getCall(win.addr);
             if (uri == null) {
                 this.adapter.add("Failed to load url;;"+win.addr+";");
-                try {
-                    Thread.currentThread().sleep(1500);
-                } catch (Exception e)
-                {}
+                SearchView.do_sleep(1500);
                 this.dismiss ();
                 return;
             }

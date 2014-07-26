@@ -87,15 +87,9 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
     @Override
     protected StringBuffer doInBackground(HttpPost... url)
     {
-        Thread tt = Thread.currentThread(); // for thread sleep
-        while(!main.lCheckerCallback.done) {
-            try {
-                tt.sleep(500);
-            }
-            finally {
-                continue;
-            }
-        }
+        while(!main.lCheckerCallback.done) 
+                SearchView.do_sleep(500);
+
         if(main.lCheckerCallback.Allow)
             setNamedData("lic","1");
         setNamedData("googleAcc",getAcc());
@@ -108,7 +102,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         HttpResponse res = null;
         while(res == null)
         try {
-            tt.sleep(500);
+            SearchView.do_sleep(500);
             res = httpClient.execute(httpPost);
         }
         finally {
@@ -116,12 +110,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         }
 
         while(res.getStatusLine() == null)
-        try {
-            tt.sleep(500);
-        }
-        finally {
-            continue;
-        }
+            SearchView.do_sleep(500);
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(res.getEntity().getContent()), 4096);

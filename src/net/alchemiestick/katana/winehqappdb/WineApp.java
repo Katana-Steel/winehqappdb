@@ -75,24 +75,21 @@ public class WineApp extends AsyncTask<HttpUriRequest,Void, String>
     @Override
     protected String doInBackground(HttpUriRequest... url)
     {
-        Thread tt = Thread.currentThread(); // for thread sleep
+        if(url[0] == null)
+            return this.body;
         HttpResponse res = null;
         while(res == null)
         try {
-            tt.sleep(500);
+            SearchView.do_sleep(500);
             res = this.client.execute(url[0]);
         } 
         finally {
             continue;
         }
             
-        while(res.getStatusLine() == null)
-        try {
-            tt.sleep(500);
+        while(res.getStatusLine() == null) {
+            SearchView.do_sleep(500);
         } 
-        finally {
-            continue;
-        }
 
         StringBuffer sb = new StringBuffer("");
         try {

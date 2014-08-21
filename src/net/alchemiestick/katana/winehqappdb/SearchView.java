@@ -68,7 +68,7 @@ public class SearchView extends Activity
 
     public void do_search(WineSearch ws) {
         setAppNameData(input.getText().toString());
-        ws.execute(ws.getCall("http://appdb.winehq.org/objectManager.php"));
+        ws.execute(ws.getCall("https://appdb.winehq.org/objectManager.php"));
     }
 
     public static void do_sleep(int msec) {

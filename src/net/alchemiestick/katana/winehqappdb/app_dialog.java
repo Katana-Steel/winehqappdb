@@ -52,7 +52,7 @@ public class app_dialog extends Dialog
     {
         String url = addr.replaceAll("&amp;","&");
         if (url.startsWith ("//"))
-            url = "http:" + url;
+            url = "https:" + url;
         try {
 
             return new HttpGet(url);

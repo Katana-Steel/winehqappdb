@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       android:installLocation="auto"
       package="net.alchemiestick.katana.winehqappdb"
-      android:versionCode="12"
-      android:versionName="1.1.9">
+      android:versionCode="13"
+      android:versionName="1.2.0">
     
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
     <uses-permission android:name="android.permission.INTERNET" />

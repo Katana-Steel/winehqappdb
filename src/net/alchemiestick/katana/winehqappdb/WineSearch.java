@@ -92,6 +92,7 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
         if (url[0] == null)
             return sb;
         HttpResponse res = null;
+        AndroidHttpClient.modifyRequestToAcceptGzipResponse(url[0]);
         while(res == null) 
          try {
             SearchView.do_sleep(500);
@@ -106,7 +107,7 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
         }
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(res.getEntity().getContent()), 4096);
+            BufferedReader br = new BufferedReader(new InputStreamReader(AndroidHttpClient.getUngzippedContent(res.getEntity())), 4096);
             String line;
             String NL = System.getProperty("line.seperator");
             while((line = br.readLine()) != null) {
@@ -116,14 +117,13 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
         catch(Exception ex)
         {
         }
+        httpClient.close();
         return sb;
     }
 
     @Override
     protected void onPostExecute(StringBuffer res)
     {
-        httpClient.close();
-
         String str = "Processing responce! (" + Long.valueOf(res.length()).toString() + " bytes)";
         tvlist.clear();
         // tvlist.add(str);

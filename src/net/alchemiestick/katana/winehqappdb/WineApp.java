@@ -101,7 +101,7 @@ public class WineApp extends AsyncTask<HttpUriRequest,Void, String>
                 sb.append(line + "\n");
             }
             
-            return sb.substring(sb.indexOf("<body"),(sb.lastIndexOf("</body>") + 7)); 
+            this.body = sb.substring(sb.indexOf("<body"),(sb.lastIndexOf("</body>") + 7)); 
         }
         catch(IOException ioe)
         {
@@ -110,6 +110,9 @@ public class WineApp extends AsyncTask<HttpUriRequest,Void, String>
         }
         catch(Exception ex)
         {
+        }
+        finally {
+            this.client.close();
         }
         return this.body;
     }
@@ -122,7 +125,6 @@ public class WineApp extends AsyncTask<HttpUriRequest,Void, String>
     @Override
     protected void onPostExecute(String res)
     {
-        this.client.close();
         if(this.str.length() > 1)
             this.tv.setText(this.str);
                 

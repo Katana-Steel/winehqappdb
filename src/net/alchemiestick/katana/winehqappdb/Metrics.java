@@ -123,15 +123,16 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
         catch(Exception ex)
         {
         }
+        finally {
+            httpClient.close();
+        }
         return sb;
     }
 
     @Override
     protected void onPostExecute(StringBuffer res)
     {
-        httpClient.close();
         main.setDefaults();
-
     }
 
     private void setNamedData(String name, String value)

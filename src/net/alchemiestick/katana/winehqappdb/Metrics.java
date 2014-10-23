@@ -87,11 +87,7 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
     @Override
     protected StringBuffer doInBackground(HttpPost... url)
     {
-        while(!main.lCheckerCallback.done) 
-                SearchView.do_sleep(500);
-
-        if(main.lCheckerCallback.Allow)
-            setNamedData("lic","1");
+        setNamedData("lic","2");
         setNamedData("googleAcc",getAcc());
         HttpPost httpPost = url[0];
         try {

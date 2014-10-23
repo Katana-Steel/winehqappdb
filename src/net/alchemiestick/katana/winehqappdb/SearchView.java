@@ -51,19 +51,12 @@ public class SearchView extends Activity
     static public final int ABOUT_DLG   = 0x0004500;
     static public final int FILTERS_DLG = 0x0004600;
     static public final int WINAPP_DLG  = 0x0004700;
-    static private final String myPubKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkdt/LgNoiCw9UwgawawbRv05QyfU1Bl+nrH64O1ErOZ5EDAJiP6golSEpvsPYfbXO/wlpOMzJeIiqUkO1m1ey4IeqYSJgYntO/yILJkthxZ8ry9/ipZXCZ4OKILycnooYmsTxDtjtcn+Ia/vTUbkiAhwT6l96pfsyHqf3YElSuApmgocza4E4rUPvOujjWbmetXJQjFCChLVs7KjLxGldpmn6d3s+Dp6odSYdoA0V+t+TMFReSO6zQAckmzXI0CQ1adyBcqp3htyK7M/qWoWFN4su92WvLZvcURpTAthFe7mqv/7dIvxmIN1owbDjC8z73/8ydqJq+vErrECWG/BCQIDAQAB";
-    static private final byte[] pSalt = new byte[] {
-      -127,  33, -77, 75,  38,   12, -111, 67, -12, 11,
-       -45, 123,  27, 44, -38, -117,   69, 82,  -5, 8
-     };
     
     public TextView  input;
     public List<NameValuePair> webData;
 
     public MyArrayAdapter tvlist;
 
-    public ValidCheck lCheckerCallback;
-    private LicenseChecker lChecker;
     private Handler uiHnd;
 
     public void do_search(WineSearch ws) {
@@ -123,26 +116,9 @@ public class SearchView extends Activity
         ListView lv = (ListView)findViewById(R.id.list);
         lv.setAdapter(tvlist);
 
-        uiHnd = new Handler();
-        
-        // getting the "unique" deviceID
-        String deviceId = Secure.getString(getContentResolver(), Secure.ANDROID_ID);        
-        
-        lCheckerCallback = new ValidCheck(this, uiHnd);
-        
-        lChecker = new LicenseChecker( this, 
-            new ServerManagedPolicy( this,
-                new AESObfuscator(pSalt, getPackageName(), deviceId)),
-            myPubKey);
-            
-        makeCheck();
-        Metrics mmc = new Metrics(this);
+        // send the usage count to the usage metrics store
+	Metrics mmc = new Metrics(this);
         mmc.execute(mmc.getCall("http://www.alchemiestick.net/store_user.php"));
-    }
-    
-    public void makeCheck()
-    {
-        lChecker.checkAccess(lCheckerCallback);
     }
     
     /* showing / creating the menu */
@@ -190,9 +166,6 @@ public class SearchView extends Activity
     {
         Dialog diag;
         switch(id) {
-        case UNLICENSED:
-            diag = open_store();
-            break;
         case ABOUT_DLG:
             diag = about_dialog();
             break;
@@ -211,35 +184,13 @@ public class SearchView extends Activity
         return diag;
     }
 
-    private Dialog open_store()
-    {
-        String msg = "Couldn't verify that this account legally purchased this application ";
-        msg += "from the google play store.\nSorry, it doesn't have any unlicensed features.";
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Unlicensed copy!!!")
-        .setMessage(msg)
-        .setCancelable(true)
-        .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Intent goStore = new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id="+getPackageName()));
-                startActivity(goStore);
-            }
-        })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
-        });
-        return builder.create();
-    }
-
     private Dialog about_dialog()
     {
         String msg = "Copyright May 25th 2012 by Rene Kjellerup (aka Katana Steel) and Alchemiestick.\n\n";
         msg += "WineHQ Appdb Search is released under GPLv3 or later. It uses images from WINE project under LGPLv2 or later ";
         msg += "see license:\nhttp://www.gnu.org/licenses/\nfor more infomation about the licenses.\n\n";
-        msg += "Souce code for the program can be obtained at\nhttp://www.alchemiestick.net/apps/?link=winehq\nand choose ";
-        msg += "the link apropriate for the the version you are running.";
+        msg += "Souce code for the program can be obtained at\nhttps://github.com/Katana-Steel/winehqappdb\nand choose ";
+        msg += "the apropriate release tag for the the version you are running.";
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("About")
         .setMessage(msg)

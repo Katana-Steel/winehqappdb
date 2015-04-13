@@ -16,10 +16,6 @@
 */
 package net.alchemiestick.katana.winehqappdb;
 
-import net.alchemiestick.katana.winehqappdb.*;
-
-import com.google.android.vending.licensing.*;
-
 import java.io.*;
 import java.util.*;
 import android.accounts.*;
@@ -259,12 +255,5 @@ public class SearchView extends Activity
         setNamedData("ionlyDownloadableOp", "10"); 
         setNamedData("sFilterSubmit", "Update Filter"); // the web submit button
         // setNamedData("sonlyDownloadableData", "true"); // unchecked by default
-    }
-    
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        lChecker.onDestroy();
     }
 }

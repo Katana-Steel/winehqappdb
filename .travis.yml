@@ -7,4 +7,4 @@ android:
     - addon-google_apis-google-19
 before_install: android update project --target android-19 --path .
 install: ant debug
-script: ls bin/*.apk | grep 'Debug\.apk'
+script: ls bin/*.apk | grep -i 'debug\.apk'

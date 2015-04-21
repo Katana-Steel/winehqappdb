@@ -5,6 +5,6 @@ android:
     - tools
     - android-19
     - addon-google_apis-google-19
-before_install: android update project --target android-19 --path .
+before_install: android update project --target android-21 --path .
 install: ant debug
 script: ls bin/*.apk | grep -i 'debug\.apk'

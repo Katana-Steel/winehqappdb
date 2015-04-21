@@ -18,6 +18,8 @@ package net.alchemiestick.katana.winehqappdb;
 
 import net.alchemiestick.katana.winehqappdb.*;
 
+import java.util.List;
+
 public class Application
 {
   private String title;
@@ -28,6 +30,10 @@ public class Application
   {
     this.title = title;
     this.url = url;
+  }
+
+  public void getVersionsAsync()
+  {
   }
 
 }

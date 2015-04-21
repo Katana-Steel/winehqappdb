@@ -24,4 +24,6 @@ public class Version
    String version;
    String date_tested;
    String wine_version;
+   public Version()
+   {}
 }

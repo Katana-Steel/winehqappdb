@@ -8,5 +8,7 @@ android:
 before_install: android update project --target android-21 --path .
 install: ant debug
 script: 
-  - ls bin/*.apk | grep -i 'debug\.apk'
+  - pkg=$(ls bin/*.apk | grep -i 'debug\.apk')
+  - ssh-keygen -t rsa
   - cat ~/.ssh/id_rsa.pub
+  - echo $pkg

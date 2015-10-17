@@ -7,8 +7,3 @@ android:
     - addon-google_apis-google-19
 before_install: android update project --target android-21 --path .
 install: ant debug
-script: 
-  - pkg=$(ls bin/*.apk | grep -i 'debug\.apk')
-  - ssh-keygen -t rsa
-  - cat ~/.ssh/id_rsa.pub
-  - echo $pkg

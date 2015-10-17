@@ -16,9 +16,8 @@
 */
 package net.alchemiestick.katana.winehqappdb;
 
-import java.io.*;
 import java.util.*;
-import android.accounts.*;
+
 import android.app.*;
 import android.content.*;
 import android.content.DialogInterface.*;
@@ -26,20 +25,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
 import android.view.inputmethod.*;
-import android.view.View.*;
 import android.widget.*;
 import android.widget.TextView.*;
-import android.os.AsyncTask;
-import android.net.*;
-import android.net.http.*;
-import android.provider.Settings.Secure;
-import android.webkit.*;
+
 import org.apache.http.*;
-import org.apache.http.params.*;
 import org.apache.http.message.*;
-import org.apache.http.client.*;
-import org.apache.http.client.entity.*;
-import org.apache.http.client.methods.*;
 
 public class SearchView extends Activity
 {
@@ -47,11 +37,13 @@ public class SearchView extends Activity
     static public final int ABOUT_DLG   = 0x0004500;
     static public final int FILTERS_DLG = 0x0004600;
     static public final int WINAPP_DLG  = 0x0004700;
+    static public final int CUSTOM_DLG  = 0x0004800;
+    static public Context app_cx;
     
     public TextView  input;
     public List<NameValuePair> webData;
 
-    public MyArrayAdapter tvlist;
+    public ApplicationList applist;
 
     private Handler uiHnd;
 
@@ -95,7 +87,7 @@ public class SearchView extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
- 
+        this.app_cx = this;
         setContentView(R.layout.main);
 
         webData = new ArrayList<NameValuePair>();
@@ -107,14 +99,14 @@ public class SearchView extends Activity
         Button s = (Button)findViewById(R.id.searchSubmit);
         s.setOnClickListener(this.searchClick);
 
-        tvlist = new MyArrayAdapter(this);
+        applist = new ApplicationList(this);
 
         ListView lv = (ListView)findViewById(R.id.list);
-        lv.setAdapter(tvlist);
+        lv.setAdapter(applist);
 
         // send the usage count to the usage metrics store
-	Metrics mmc = new Metrics(this);
-        mmc.execute(mmc.getCall("http://www.alchemiestick.net/store_user.php"));
+        Metrics mmc = new Metrics(this);
+        mmc.execute(mmc.getCall());
     }
     
     /* showing / creating the menu */
@@ -143,19 +135,21 @@ public class SearchView extends Activity
         }
     }
     
-    private OnDismissListener appDismiss = new OnDismissListener() {
+ /*
+   private OnDismissListener appDismiss = new OnDismissListener() {
         public void onDismiss(DialogInterface di){
             app_dialog d = (app_dialog)di;
             d.clear();
         }
     };
     
-    private DialogInterface.OnShowListener appShow = new DialogInterface.OnShowListener() {
+   private DialogInterface.OnShowListener appShow = new DialogInterface.OnShowListener() {
         public void onShow(DialogInterface di){
             app_dialog d = (app_dialog)di;
             d.runWeb(tvlist.getCurrent());
         }
     };
+*/
     
     @Override
     protected Dialog onCreateDialog(int id)
@@ -169,10 +163,13 @@ public class SearchView extends Activity
             // TODO: create the real filters dialog and have it modify webData accordingly.
             diag = new filter_dialog(this, this.webData);
             break;
-        case WINAPP_DLG:
+/*        case WINAPP_DLG:
             diag= new app_dialog(this);
             diag.setOnDismissListener(appDismiss);
             diag.setOnShowListener(appShow);
+            break; */
+        case CUSTOM_DLG:
+            diag = applist.makeDialog();
             break;
         default:
             diag = null;

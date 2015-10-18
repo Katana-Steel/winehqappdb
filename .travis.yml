@@ -4,6 +4,7 @@ android:
     - platform-tools
     - tools
     - addon-google_apis-google-21
+    - sys-img-armeabi-v7a-addon-google_apis-google-21
 before_script:
   - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:21" --abi armeabi-v7a --tag google_apis
   - emulator -avd test -no-skin -no-audio -no-window &

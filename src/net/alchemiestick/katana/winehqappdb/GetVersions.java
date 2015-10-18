@@ -51,7 +51,7 @@ class GetVersions extends AsyncTask<Void,Void,String[]> {
     protected void onPreExecute() {
         super.onPreExecute();
         setClient();
-        this.versionList.add(new Version({"Getting","From","versions","Server"}));
+        this.versionList.add(new Version("Getting;From;versions;Server".split(";")));
     }
 
     @Override

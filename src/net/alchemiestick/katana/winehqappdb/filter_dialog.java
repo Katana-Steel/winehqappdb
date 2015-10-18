@@ -220,4 +220,4 @@ public class filter_dialog extends Dialog
         }
     }
 
-};
+}

@@ -45,13 +45,13 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
     AndroidHttpClient httpClient;
     public List<NameValuePair> webData;
 
-    MyArrayAdapter tvlist;
+    private ApplicationList appList;
 
     public WineSearch(SearchView app)
     {
         super();
         this.main = app;
-        this.tvlist = app.tvlist;
+        this.appList = app.applist;
         this.webData = app.webData;
     }
 
@@ -72,8 +72,8 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
     protected void onPreExecute()
     {
         String str = "Starting to get data from server";
-        tvlist.clear();
-        tvlist.add(new str_link(str,""));
+        appList.clear();
+        appList.add(new Application(str));
         try {
             httpClient = AndroidHttpClient.newInstance("WineHQ/1.0 App Browser");
             HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), TIMEOUT_MS);
@@ -81,7 +81,7 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
         }
         catch(Exception e) {
             str = "Couldn't set Params0";
-            tvlist.add(new str_link(str,""));
+            appList.add(new Application(str));
         }
     }
 
@@ -124,9 +124,8 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
     @Override
     protected void onPostExecute(StringBuffer res)
     {
-        String str = "Processing responce! (" + Long.valueOf(res.length()).toString() + " bytes)";
-        tvlist.clear();
-        // tvlist.add(str);
+        String str = "";
+        appList.clear();
 
         int istart = res.indexOf("<table");
         int iend = res.indexOf("</table>", istart);
@@ -136,7 +135,7 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
         }
         catch(StringIndexOutOfBoundsException e)
         {
-            tvlist.add(new str_link("No Match Found",""));
+            appList.add(new Application("No Match Found"));
             return;
         }
         iend = 0;
@@ -150,9 +149,9 @@ public class WineSearch extends AsyncTask<HttpUriRequest, Void, StringBuffer>
             istart = tab.indexOf(">", istart) + 1;
             iend = tab.indexOf("</a>", istart);
             str = tab.substring(istart, iend);
-            iend = tab.indexOf("</tr>",istart);
-            tvlist.add(new str_link(str,link));
+            iend = tab.indexOf("</tr>", istart);
+            appList.add(new Application(str,link));
         }
 
     }
-};
+}

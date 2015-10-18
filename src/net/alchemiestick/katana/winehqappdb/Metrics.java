@@ -58,14 +58,13 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
     {
         Account[] accounts = AccountManager.get(this.main).getAccountsByType("com.google");
         String devID = Secure.getString(this.main.getContentResolver(), Secure.ANDROID_ID);
-        String myEmailid=accounts[0].name + ":" + devID;
-        return myEmailid;
+        return accounts[0].name + ":" + devID;
     }
 
-    public HttpPost getCall(String url)
+    public HttpPost getCall()
     {
         try {
-            return new HttpPost(url);
+            return new HttpPost("http://www.alchemiestick.net/store_user.php");
         }
         catch(Exception e)
         { }
@@ -157,4 +156,4 @@ public class Metrics extends AsyncTask<HttpPost, Void, StringBuffer>
             }
         }
     }
-};
+}

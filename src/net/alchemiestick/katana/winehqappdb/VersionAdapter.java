@@ -24,30 +24,20 @@ import android.view.View.*;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class VersionAdapter extends ArrayAdapter<String> 
+class VersionAdapter extends ArrayAdapter<Version>
 {
-    public Context cx;
-    
+    private LayoutInflater inflater;
+
     public VersionAdapter(Context cx)
     {
         super(cx, R.layout.verlist_item);
-        this.cx = cx;
+        this.inflater = (LayoutInflater) cx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        String[] ver = this.getItem(position).split(";",-4);
-        LayoutInflater inflater = (LayoutInflater) this.cx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.verlist_item, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.tversion);
-        textView.setText(ver[0]);
-        textView = (TextView) rowView.findViewById(R.id.wine_version);
-        textView.setText(ver[1]);
-        textView = (TextView) rowView.findViewById(R.id.tdate);
-        textView.setText(ver[2]);
-        textView = (TextView) rowView.findViewById(R.id.tcls);
-        textView.setText(ver[3]);
-        return rowView;
+        this.getItem(position).setRowView(this.inflater,parent);
+        return this.getItem(position).getRowView();
     }
 }

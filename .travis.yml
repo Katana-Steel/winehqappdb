@@ -3,15 +3,15 @@ android:
   components:
     - platform-tools
     - tools
-    - android-19
-    - addon-google_apis-google-19
-    - sys-img-armeabi-v7a-android-19
+    - android-21
+    - addon-google_apis-google-21
+    - sys-img-x86-addon-google_apis-google-21
 before_script:
-  - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:21" --abi x86 --tag google_apis
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 before_install:
   - android update project --target android-21 -p .
   - android update test-project -m ../ -p tests
-
+  - cd tests

@@ -41,8 +41,8 @@ class Version
         this.wine_version = "";
         if (vstr.length == 4) {
             this.version = vstr[0];
-            this.level = vstr[1];
-            this.date_tested = vstr[2];
+            this.level = vstr[2];
+            this.date_tested = vstr[1];
             this.wine_version = vstr[3];
         }
     }

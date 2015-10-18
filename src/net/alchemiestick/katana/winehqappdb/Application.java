@@ -61,8 +61,10 @@ class Application
 
     public void getVersionsAsync()
     {
-        if (this.verTask.getStatus() == AsyncTask.Status.PENDING) {
-            this.verTask.execute();
+        if (this.verTask != null){
+            if (this.verTask.getStatus() == AsyncTask.Status.PENDING) {
+                this.verTask.execute();
+            }
         }
     }
     public boolean hasVersions()
@@ -80,7 +82,7 @@ class Application
             SearchView ax = (SearchView)SearchView.app_cx;
             try {
                 ax.applist.FillInDialog(title, versions);
-                ax.showDialog(SearchView.CUSTOM_DLG);
+                ax.showDialog(SearchView.WINAPP_DLG);
             }
             catch(Exception e)
             { }

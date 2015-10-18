@@ -37,7 +37,6 @@ public class SearchView extends Activity
     static public final int ABOUT_DLG   = 0x0004500;
     static public final int FILTERS_DLG = 0x0004600;
     static public final int WINAPP_DLG  = 0x0004700;
-    static public final int CUSTOM_DLG  = 0x0004800;
     static public Context app_cx;
     
     public TextView  input;
@@ -135,21 +134,6 @@ public class SearchView extends Activity
         }
     }
     
- /*
-   private OnDismissListener appDismiss = new OnDismissListener() {
-        public void onDismiss(DialogInterface di){
-            app_dialog d = (app_dialog)di;
-            d.clear();
-        }
-    };
-    
-   private DialogInterface.OnShowListener appShow = new DialogInterface.OnShowListener() {
-        public void onShow(DialogInterface di){
-            app_dialog d = (app_dialog)di;
-            d.runWeb(tvlist.getCurrent());
-        }
-    };
-*/
     
     @Override
     protected Dialog onCreateDialog(int id)
@@ -163,12 +147,7 @@ public class SearchView extends Activity
             // TODO: create the real filters dialog and have it modify webData accordingly.
             diag = new filter_dialog(this, this.webData);
             break;
-/*        case WINAPP_DLG:
-            diag= new app_dialog(this);
-            diag.setOnDismissListener(appDismiss);
-            diag.setOnShowListener(appShow);
-            break; */
-        case CUSTOM_DLG:
+        case WINAPP_DLG:
             diag = applist.makeDialog();
             break;
         default:

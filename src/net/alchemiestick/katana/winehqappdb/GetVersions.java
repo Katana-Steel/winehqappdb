@@ -51,13 +51,14 @@ class GetVersions extends AsyncTask<Void,Void,String[]> {
     protected void onPreExecute() {
         super.onPreExecute();
         setClient();
+        this.versionList.add(new Version({"Getting","From","versions","Server"}));
     }
 
     @Override
     protected void onPostExecute(String[] s) {
         super.onPostExecute(s);
         this.request.disconnect();
-        if (s != null) {
+        if (s != null && s.length > 1) {
             this.versionList.clear();
             int len = s.length;
             for (int i = 0; i < len; ++i) {
@@ -82,11 +83,13 @@ class GetVersions extends AsyncTask<Void,Void,String[]> {
             res = table.split("<a ");
             int len = res.length;
             String sep = ";";
+            int istart = 0;
+            if(len > 0)
+                istart = res[0].indexOf("<td ");
             for (int i=0; i < len; ++i) {
-                int istart = 0;
                 int iend = 0;
                 String working = res[i];
-                istart = working.indexOf(">") + 1;
+                istart = working.indexOf(">",istart) + 1;
                 iend = working.indexOf("</",istart);
                 String end = working.substring(istart,iend); // adding the version
                 end += sep;
@@ -95,15 +98,16 @@ class GetVersions extends AsyncTask<Void,Void,String[]> {
                 istart = working.indexOf(">",istart) + 1;
                 iend = working.indexOf("</",istart);
                 end += sep;
-                end = working.substring(istart,iend); // adding the QA Class
+                end += working.substring(istart,iend); // adding the QA Class
                 istart = working.indexOf("<td", iend) + 2;
                 istart = working.indexOf(">",istart) + 1;
                 iend = working.indexOf("</", istart);
                 end += sep;
-                end = working.substring(istart,iend); // version of Wine.
+                end += working.substring(istart,iend); // version of Wine.
                 end += sep;
                 res[i] = end;
                 working = null;
+                istart=0;
             }
         }
         catch(Exception e){

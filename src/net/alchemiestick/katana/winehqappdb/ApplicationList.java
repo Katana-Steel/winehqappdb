@@ -39,19 +39,21 @@ class ApplicationList extends ArrayAdapter<Application> {
 
     public Dialog makeDialog() {
         if (this.MyDialog == null){
-            this.MyDialog = new Dialog(this.cx,R.layout.web_dlg);
-            tv = (TextView)this.MyDialog.findViewById(R.id.win_name);
-            tv.setOnClickListener(dismissDlg);
-            lv = (ListView)this.MyDialog.findViewById(R.id.win_versions);
-            lv.setOnClickListener(dismissDlg);
+            this.MyDialog = new Dialog(this.cx,android.R.style.Theme_Dialog);
+            this.MyDialog.setContentView(R.layout.web_dlg);
+            this.tv = (TextView)this.MyDialog.findViewById(R.id.win_name);
+            this.tv.setOnClickListener(dismissDlg);
+            this.lv = (ListView)this.MyDialog.findViewById(R.id.win_versions);
+            this.lv.setOnClickListener(dismissDlg);
             this.MyDialog.setOnShowListener(null);
         }
         return this.MyDialog;
     }
 
     public void FillInDialog(String title, VersionAdapter va) {
-        tv.setText(title);
-        lv.setAdapter(va);
+        this.makeDialog();
+        this.tv.setText(title);
+        this.lv.setAdapter(va);
     }
 
     @Override

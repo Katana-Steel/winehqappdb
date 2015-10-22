@@ -28,6 +28,8 @@ class ApplicationList extends ArrayAdapter<Application> {
         super(cx, R.layout.list_item);
         this.cx = cx;
         this.inflater = (LayoutInflater) cx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	this.MyDialog = null;
+        this.makeDialog();
     }
 
     private View.OnClickListener dismissDlg = new View.OnClickListener() {
@@ -44,7 +46,6 @@ class ApplicationList extends ArrayAdapter<Application> {
             this.tv = (TextView)this.MyDialog.findViewById(R.id.win_name);
             this.tv.setOnClickListener(dismissDlg);
             this.lv = (ListView)this.MyDialog.findViewById(R.id.win_versions);
-            this.lv.setOnClickListener(dismissDlg);
             this.MyDialog.setOnShowListener(null);
         }
         return this.MyDialog;

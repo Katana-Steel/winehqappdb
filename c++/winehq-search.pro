@@ -28,3 +28,6 @@ HEADERS  += mainUi.h \
     searchappdb.h
 
 FORMS    += mainUi.ui
+
+DISTFILES += \
+    simpleUi.qml

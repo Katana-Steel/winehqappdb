@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:winehqappdb/main.dart';
+import 'package:winehqappdb/winehq.dart';
 
 // class 
 
@@ -27,5 +28,17 @@ void main() {
 
     // Verify that our search has completed.
     expect(find.byType(RaisedButton), findsNWidgets(1));
+  });
+  testWidgets("parse application table rows", (WidgetTester tester) async {
+    String table = "";
+    List<String> tr = getAppTable(table);
+    // html page with no wineHq table should return an empty list.
+    expect(tr.length, 0); 
+
+    table = '<table class="whq-table"><th><td></td><td></td></th><tr>row1</tr><tr>row2</tr></table>';
+    tr = getAppTable(table);
+    // html page with wineHq table and 2 rows should yield a list of 3
+    // 1 for each row and the first element the lead up to the first row
+    expect(tr.length, 3);
   });
 }

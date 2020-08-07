@@ -4,8 +4,8 @@ winehqappdb
 Release under GPLv3 or later license, read the 
 LICENSE file for the full licensing details
 
-This is an app for Android API-8 or newer
-that will query appdb.winehq.com and list
+This is an app for Android API-16 (due to flutter) or
+newer that will query appdb.winehq.com and list
 reported windows applications and diplay their
 currently reported versions and how well they 
 function under wine.

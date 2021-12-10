@@ -1,12 +1,18 @@
-import 'package:flutter/material.dart';
+// import 'dart:html';
 
+import 'package:flutter/material.dart';
+import 'package:winehqappdb/search_options.dart';
+
+import 'sidemenu.dart';
 import 'winehq.dart';
 import 'alchemy_metrics.dart';
+import 'search_options.dart';
 
 void main() => setup();
 
 void setup() {
   Future<void>(() => countCallback());
+  Future<void>(() => SPHelper().init());
   runApp(MyApp());
 }
 
@@ -29,13 +35,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(title: 'WineHQ AppDB Search'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({
+    Key? key,
+  }) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,7 +54,7 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String title = 'WineHQ AppDB Search';
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -55,13 +63,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<AppVersion> apps = [];
   bool searching = false;
-  TextField txt;
-  RaisedButton btn;
-  TextEditingController _controller = TextEditingController();
-
-  void sumbitSearch() async {
-    searchAppDb(txt.controller.text);
-  }
+  TextEditingController _controller = TextEditingController(text: '');
 
   void searchAppDb(String name) async {
     if (searching) return;
@@ -88,22 +90,31 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     List<Widget> ch = [];
     for (AppVersion a in apps) {
-      a.context = context;
-      ch.add(a.getAppName());
+      ch.add(a.getAppName(context));
     }
-    btn = RaisedButton(
-      child: Text('Search'),
-      onPressed: sumbitSearch,
-    );
-    txt = TextField(
+    return mainLayout(ch, widget.title);
+  }
+
+  Scaffold mainLayout(List<Widget> ch, String title) {
+    TextField txt = TextField(
       controller: _controller,
       onSubmitted: searchAppDb,
     );
+    final ElevatedButton btn = ElevatedButton(
+      child: Text('Search'),
+      onPressed: () {
+        String? t = txt.controller?.text;
+        searchAppDb(t ?? '');
+      },
+    );
     return Scaffold(
+      drawer: SideMenu(
+        disable: 'Search',
+      ),
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -134,15 +145,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       /* floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Counter',
-        child: Icon((countUp) ? Icons.add : Icons.remove),
-      ),*/ // This trailing comma makes auto-formatting nicer for build methods.
+      onPressed: _incrementCounter,
+      tooltip: 'Counter',
+      child: Icon((countUp) ? Icons.add : Icons.remove),
+    ),*/ // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-Widget searchBar(TextField txt, RaisedButton btn) {
+Widget searchBar(TextField txt, Widget btn) {
   return Row(
     children: <Widget>[
       Container(child: Text('App Name: ')),

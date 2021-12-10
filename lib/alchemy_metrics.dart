@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:device_id/device_id.dart';
 import 'package:http/http.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 void countCallback() async {
   WidgetsFlutterBinding.ensureInitialized();
   String userID = '';
   try {
-    userID = await DeviceId.getID;
+    userID = await PlatformDeviceId.getDeviceId ?? 'not_found';
   } catch (e) {
     return;
   }
   Map<String, String> headers = {
-    'User-Agent': 'WineHQ/1.2 App Browser',
+    'User-Agent': 'WineHQ/1.3 App Browser',
     'Content-Type': 'application/x-www-form-urlencoded',
   };
   Uri alchemy = Uri(
@@ -21,7 +21,7 @@ void countCallback() async {
   );
   Map<String, String> data = {
     'googleAcc': userID,
-    'lic': '15',
+    'lic': '16',
   };
   post(alchemy, headers: headers, body: data);
 }

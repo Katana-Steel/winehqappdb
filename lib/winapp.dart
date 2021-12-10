@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:winehqappdb/winehq.dart';
 
 class AppView extends StatefulWidget {
-  AppView({Key key, this.title, this.app}) : super(key: key);
+  AppView({Key? key, required this.title, required this.app}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -65,8 +65,9 @@ class _MyAppViewState extends State<AppView> {
 }
 
 class Rating {
-  String version;
-  String rated;
+  String version = '';
+  String rated = '';
+  Rating(this.version, this.rated);
   List<Widget> getVersion() {
     return [Expanded(child: Text(version)), Text(rated)];
   }
@@ -102,7 +103,7 @@ void initiateAppView(AppVersion app, List<Rating> state) async {
     String id = 'iId=';
     for (String tr in table) {
       if (!tr.contains(id)) continue;
-      Rating rated = Rating();
+      Rating rated = Rating('', '');
       int s = tr.indexOf(id) + id.length; // tr data url
       s = tr.indexOf('<td', s);
       s = tr.indexOf('>', s) + 1; // end of <a href

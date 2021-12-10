@@ -1,49 +1,45 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:winehqappdb/search_options.dart';
 import 'package:winehqappdb/winapp.dart';
 
-Map<String, String> getDefaults() => {
-      'bAscending': 'true',
-      'bIsQueue': 'false',
-      'bIsRejected': 'false',
-      'sClass': 'application',
-      'sTitle': 'Browse Application',
-      'sReturnTo': '',
-      'iId': '0',
-      'sOrderBy': 'appName',
-      'iappFamily-appNameOp': '2', // contains: 2, starts with: 3, ends with: 4
-      'sFilterSubmit': ' Update filter'
-    };
-
 class AppVersion {
-  int appId;
-  String appName;
-  String appVersion;
-  int testId;
-  String testScore;
-  dynamic context;
-  void _executeLookup() {
+  int appId = 0;
+  String appName = '';
+  String appVersion = '';
+  int testId = 0;
+  String testScore = '';
+  void _executeLookup(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AppView(title: this.appName, app: this)));
   }
 
-  Widget getAppName() {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+  Widget getAppName(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      ),
       child: Text(
         appName,
       ),
-      onPressed: this._executeLookup,
+      onPressed: () {
+        this._executeLookup(context);
+      },
     );
   }
 }
 
 Future<String> getPage(Map<String, String> formData) async {
   Uri url = Uri(
-      scheme: 'https', host: 'appdb.winehq.org', path: '/objectManager.php');
+    scheme: 'https',
+    host: 'appdb.winehq.org',
+    path: '/objectManager.php',
+    queryParameters: formData,
+  );
   http.Response r = await http.post(url, body: formData);
   return utf8.decode(r.bodyBytes, allowMalformed: true);
 }

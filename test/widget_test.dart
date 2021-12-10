@@ -27,7 +27,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify that our search has completed.
-    expect(find.byType(RaisedButton), findsNWidgets(1));
+    expect(find.byType(ElevatedButton), findsNWidgets(1));
   });
   testWidgets("parse application table rows", (WidgetTester tester) async {
     String table = "";
